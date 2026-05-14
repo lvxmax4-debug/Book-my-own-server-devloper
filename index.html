@@ -1,12 +1,15 @@
+# MAX Development — Simplified Discord Hire Version
+
+Replace your current HTML with the following updated version.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAX Development - Premium Discord Development</title>
-    
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <style>
         :root {
             --deep-blue: #0a1428;
@@ -24,6 +27,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
             background: var(--deep-blue);
@@ -32,7 +39,65 @@
             line-height: 1.6;
         }
 
-        /* Background System */
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1200px;
+            z-index: 999;
+            padding: 1rem 2rem;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--deep-cyan), var(--deep-emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--deep-cyan);
+            opacity: 1;
+        }
+
+        /* Progress Bar */
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 0%;
+            background: linear-gradient(90deg,#00d4ff,#00ff88);
+            z-index: 99999;
+        }
+
+        /* Background */
         .background-container {
             position: fixed;
             top: 0;
@@ -63,16 +128,10 @@
         .glow-overlay {
             position: absolute;
             inset: 0;
-            background: 
+            background:
                 radial-gradient(circle at 25% 25%, rgba(0, 212, 255, 0.18) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(0, 255, 136, 0.12) 0%, transparent 50%);
             z-index: 2;
-            animation: glowShift 20s ease-in-out infinite;
-        }
-
-        @keyframes glowShift {
-            0%, 100% { opacity: 0.85; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); }
         }
 
         .particles {
@@ -90,13 +149,25 @@
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-120px) scale(1); opacity: 0; }
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120px) scale(1);
+                opacity: 0;
+            }
         }
 
-        /* Container & Glass */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -113,21 +184,6 @@
             box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
         }
 
-        /* Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            animation: revealUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-
-        @keyframes revealUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -138,28 +194,34 @@
             padding: 140px 0 100px;
         }
 
+        .hero-avatar {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.6);
+            margin-bottom: 3rem;
+        }
+
         .hero h1 {
             font-size: clamp(4rem, 10vw, 7rem);
             font-weight: 900;
             background: linear-gradient(135deg, var(--white-glow) 0%, var(--deep-cyan) 40%, var(--deep-emerald) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.8rem;
-            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
-            max-width: 650px;
-            margin: 0 auto 4rem;
-            opacity: 0.88;
-            font-weight: 300;
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.85;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -168,89 +230,93 @@
             padding: 18px 48px;
             border: none;
             border-radius: 60px;
-            font-size: 1.15rem;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.75rem;
-            backdrop-filter: blur(25px);
-            position: relative;
-            overflow: hidden;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--deep-cyan) 0%, var(--deep-emerald) 100%);
-            color: var(--deep-blue);
-            box-shadow: 0 24px 48px rgba(0, 212, 255, 0.35);
+            background: linear-gradient(135deg,#00d4ff 0%,#00ff88 100%);
+            color: #001018;
+            box-shadow: 0 10px 40px rgba(0,212,255,0.4);
         }
 
         .btn-primary:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 36px 72px rgba(0, 212, 255, 0.45);
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 20px 60px rgba(0,212,255,0.6);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--white-glow);
-            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.12);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.16);
             transform: translateY(-4px);
+            background: rgba(255,255,255,0.14);
         }
 
-        .hero-avatar {
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 0 80px rgba(0, 212, 255, 0.6);
-            margin-bottom: 3rem;
-            animation: avatarPulse 7s ease-in-out infinite;
-        }
-
-        @keyframes avatarPulse {
-            0%, 100% { box-shadow: 0 0 80px rgba(0, 212, 255, 0.6); }
-            50% { box-shadow: 0 0 100px rgba(0, 212, 255, 0.8); }
-        }
-
-        /* Sections */
         .section {
-            padding: 140px 0;
+            padding: 120px 0;
         }
 
         .section-title {
             font-size: clamp(3rem, 6vw, 4.5rem);
             font-weight: 800;
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--white-glow) 0%, var(--deep-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .section-subtitle {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-align: center;
-            opacity: 0.85;
-            max-width: 700px;
-            margin: 0 auto 5rem;
-            font-weight: 300;
+            opacity: 0.8;
+            margin-bottom: 4rem;
         }
 
-        /* Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
         }
 
-        /* Shiny Tech Icons */
+        .card {
+            padding: 3rem;
+            text-align: center;
+            transition: 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top,
+                rgba(0,212,255,0.15),
+                transparent 70%);
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
         .tech-icon {
             width: 100px;
             height: 100px;
@@ -260,47 +326,7 @@
             justify-content: center;
             font-size: 2.5rem;
             margin: 0 auto 2rem;
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .card:hover .tech-icon {
-            transform: scale(1.15) translateY(-12px);
-            box-shadow: 0 32px 64px rgba(0, 212, 255, 0.5);
-        }
-
-        .tech-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -120%;
-            width: 120%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-            border-radius: 24px;
-            transition: left 0.8s;
-        }
-
-        .card:hover .tech-icon::before {
-            left: 120%;
-        }
-
-        /* Cards */
-        .card {
-            padding: 3rem;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card:hover {
-            transform: translateY(-16px);
-        }
-
-        /* Team Cards */
-        .team-grid {
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
         }
 
         .team-avatar {
@@ -308,116 +334,53 @@
             height: 140px;
             border-radius: 50%;
             margin: 0 auto 2rem;
-            border: 4px solid rgba(255, 255, 255, 0.25);
-            transition: all 0.4s ease;
-            box-shadow: 0 0 32px rgba(0, 0, 0, 0.5);
+            border: 4px solid rgba(255,255,255,0.25);
+            box-shadow: 0 0 32px rgba(0,0,0,0.5);
         }
 
-        .card:hover .team-avatar {
-            transform: scale(1.08);
-            box-shadow: 0 0 60px rgba(0, 212, 255, 0.7);
-        }
-
-        /* Hire Section */
-        .hire-grid {
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .modal-content {
-            background: var(--glass-bg);
-            backdrop-filter: blur(35px);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 3.5rem;
-            max-width: 650px;
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: scale(0.7) translateY(20px);
-            animation: modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        @keyframes modalAppear {
-            to {
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 1.25rem 1.75rem;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            color: var(--white-glow);
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--deep-cyan);
-            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.25);
-        }
-
-        .form-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23c0c0c0' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 1.5rem center;
-            background-repeat: no-repeat;
-            background-size: 18px;
-            padding-right: 3.5rem;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 140px;
-            font-family: inherit;
-        }
-
-        /* Footer */
         .footer {
             padding: 6rem 0 3rem;
             text-align: center;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Responsive */
+        .discord-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#5865F2,#7289DA);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-decoration: none;
+            color: white;
+            z-index: 999;
+            box-shadow: 0 20px 50px rgba(88,101,242,0.5);
+            transition: 0.4s;
+        }
+
+        .discord-float:hover {
+            transform: scale(1.1) translateY(-5px);
+        }
+
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
             .hero-buttons {
                 flex-direction: column;
-                align-items: center;
             }
+
             .btn {
                 width: 100%;
-                max-width: 340px;
-                justify-content: center;
+                max-width: 320px;
             }
-            .section {
-                padding: 100px 0;
-            }
+
             .grid {
                 grid-template-columns: 1fr;
             }
@@ -425,269 +388,226 @@
     </style>
 </head>
 <body>
-    <!-- Premium Background -->
+
+    <div id="progressBar"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <h2 class="logo">MAX Development</h2>
+
+            <div class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#team">Team</a>
+                <a href="#hire">Hire</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Background -->
     <div class="background-container">
-        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmdmZzRrd2twNWF6eWFyOTA5M2s4YWo0YmhhNDZqeTZ0ajI1bzdsZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/w6CSuHkVBELhzRoXiL/giphy.gif" 
-             class="bg-gif" loading="eager" alt="Cinematic Background">
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmdmZzRrd2twNWF6eWFyOTA5M2s4YWo0YmhhNDZqeTZ0ajI1bzdsZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/w6CSuHkVBELhzRoXiL/giphy.gif"
+             class="bg-gif"
+             alt="Background">
+
         <div class="dark-overlay"></div>
         <div class="glow-overlay"></div>
         <div class="particles" id="particles"></div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero reveal">
+    <!-- Hero -->
+    <section class="hero">
         <div class="container">
-            <img src="https://cdn.discordapp.com/avatars/1469928466106548245/4cf1088449a4d0181e577780c4be6c18.png?size=4096" 
-                 alt="MAX" class="hero-avatar">
+            <img src="https://cdn.discordapp.com/avatars/1469928466106548245/4cf1088449a4d0181e577780c4be6c18.png?size=4096"
+                 alt="MAX"
+                 class="hero-avatar">
+
             <h1>MAX Development</h1>
-            <p class="hero-subtitle">Professional Discord Bots & Server Development</p>
+
+            <p class="hero-subtitle">
+                Professional Discord Bot & Server Development.
+                Join our Discord server and hire developers directly.
+            </p>
+
             <div class="hero-buttons">
-                <a href="#hire" class="btn btn-primary">Book Service</a>
-                <a href="#team" class="btn btn-secondary">Contact Team</a>
+                <a href="https://discord.gg/Dw3xuWtKmD"
+                   target="_blank"
+                   class="btn btn-primary">
+                   💬 Join Discord
+                </a>
+
+                <a href="#team" class="btn btn-secondary">
+                    View Team
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="section reveal" style="animation-delay: 0.2s">
+    <!-- Services -->
+    <section id="services" class="section">
         <div class="container">
             <h2 class="section-title">Premium Services</h2>
-            <p class="section-subtitle">Complete Discord solutions from California experts</p>
+
+            <p class="section-subtitle">
+                Professional Discord development solutions
+            </p>
+
             <div class="grid">
+
                 <div class="glass card">
                     <div class="tech-icon" style="background: linear-gradient(135deg, #00ff88, #64ffaa);">🤖</div>
-                    <h3>Discord Bot Development</h3>
-                    <p>Custom bots with moderation, tickets, verification & AI features</p>
+                    <h3>Discord Bots</h3>
+                    <p>Custom moderation, ticket, AI and utility bots.</p>
                 </div>
+
                 <div class="glass card">
                     <div class="tech-icon" style="background: linear-gradient(135deg, #ffd700, #ffed4e);">⚙️</div>
                     <h3>Server Setup</h3>
-                    <p>Professional server configuration, roles, channels & permissions</p>
+                    <p>Professional channels, permissions and role systems.</p>
                 </div>
+
                 <div class="glass card">
                     <div class="tech-icon" style="background: linear-gradient(135deg, #00d4ff, #64e6ff);">🔒</div>
                     <h3>Security Systems</h3>
-                    <p>Advanced moderation, anti-raid protection & security automation</p>
+                    <p>Advanced anti-raid, anti-nuke and moderation systems.</p>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Technologies -->
-    <section class="section reveal" style="animation-delay: 0.4s">
-        <div class="container">
-            <h2 class="section-title">Technologies We Master</h2>
-            <p class="section-subtitle">Building enterprise-grade Discord systems</p>
-            <div class="grid">
-                <div class="glass card">
-                    <div class="tech-icon" style="background: linear-gradient(135deg, #f7df1e, #ffed4e);">⚡</div>
-                    <h3>JavaScript</h3>
-                    <p>Modern Discord.js development</p>
-                </div>
-                <div class="glass card">
-                    <div class="tech-icon" style="background: linear-gradient(135deg, #3776ab, #4a90e2);">🐍</div>
-                    <h3>Python</h3>
-                    <p>AI bots & automation systems</p>
-                </div>
-                <div class="glass card">
-                    <div class="tech-icon" style="background: linear-gradient(135deg, #00599c, #007acc);">⚙️</div>
-                    <h3>C++</h3>
-                    <p>High-performance solutions</p>
-                </div>
-                <div class="glass card">
-                    <div class="tech-icon" style="background: linear-gradient(135deg, #264de4, #2965f1);">🎨</div>
-                    <h3>CSS3</h3>
-                    <p>Premium UI/UX design</p>
-                </div>
-                <div class="glass card">
-                    <div class="tech-icon" style="background: linear-gradient(135deg, #00d4ff, #64e6ff);">🔗</div>
-                    <h3>Node.js</h3>
-                    <p>Scalable server architecture</p>
-                </div>
-                <div class="glass card">
-                    <div class="tech-icon" style="background: linear-gradient(135deg, #47cf73, #5ed77b);">🗄️</div>
-                    <h3>MongoDB</h3>
-                    <p>Robust data management</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="section reveal" style="animation-delay: 0.6s">
+    <!-- Team -->
+    <section id="team" class="section">
         <div class="container">
             <h2 class="section-title">Expert Team</h2>
-            <p class="section-subtitle">California professionals delivering excellence</p>
-            <div class="grid team-grid">
-                <div class="glass card" data-discord="1469928466106548245" data-name="MAX">
-                    <img src="https://cdn.discordapp.com/avatars/1469928466106548245/4cf1088449a4d0181e577780c4be6c18.png?size=4096" 
-                         alt="MAX" class="team-avatar">
+
+            <p class="section-subtitle">
+                Join our Discord and work directly with developers
+            </p>
+
+            <div class="grid">
+
+                <div class="glass card">
+                    <img src="https://cdn.discordapp.com/avatars/1469928466106548245/4cf1088449a4d0181e577780c4be6c18.png?size=4096"
+                         alt="MAX"
+                         class="team-avatar">
+
                     <h3>MAX</h3>
                     <p>Founder & Lead Developer</p>
-                    <button class="btn btn-secondary dm-btn">DM MAX</button>
+
+                    <a href="https://discord.gg/Dw3xuWtKmD"
+                       target="_blank"
+                       class="btn btn-primary">
+                       💬 Hire MAX
+                    </a>
                 </div>
-                <div class="glass card" data-discord="1497847943045058640" data-name="Sophia">
-                    <img src="https://cdn.discordapp.com/avatars/1497847943045058640/12b0e37ab31a2cb021baab5247cfe924.png?size=4096" 
-                         alt="Sophia" class="team-avatar">
+
+                <div class="glass card">
+                    <img src="https://cdn.discordapp.com/avatars/1497847943045058640/12b0e37ab31a2cb021baab5247cfe924.png?size=4096"
+                         alt="Sophia"
+                         class="team-avatar">
+
                     <h3>Sophia</h3>
                     <p>UI/UX Designer</p>
-                    <button class="btn btn-secondary dm-btn">DM Sophia</button>
+
+                    <a href="https://discord.gg/Dw3xuWtKmD"
+                       target="_blank"
+                       class="btn btn-primary">
+                       💬 Hire Sophia
+                    </a>
                 </div>
-                <div class="glass card" data-discord="887918451409166426" data-name="Peter">
-                    <img src="https://cdn.discordapp.com/avatars/887918451409166426/3f52a7c296ae2ec99984d878a4663f45.png?size=4096" 
-                         alt="Peter" class="team-avatar">
+
+                <div class="glass card">
+                    <img src="https://cdn.discordapp.com/avatars/887918451409166426/3f52a7c296ae2ec99984d878a4663f45.png?size=4096"
+                         alt="Peter"
+                         class="team-avatar">
+
                     <h3>Peter</h3>
                     <p>Frontend Developer</p>
-                    <button class="btn btn-secondary dm-btn">DM Peter</button>
+
+                    <a href="https://discord.gg/Dw3xuWtKmD"
+                       target="_blank"
+                       class="btn btn-primary">
+                       💬 Hire Peter
+                    </a>
                 </div>
-                <div class="glass card" data-discord="1295680020915818521" data-name="Devpatel">
-                    <img src="https://cdn.discordapp.com/avatars/1295680020915818521/29e52b0c54eeec98847c38be8dd26fa2.png?size=4096" 
-                         alt="Devpatel" class="team-avatar">
+
+                <div class="glass card">
+                    <img src="https://cdn.discordapp.com/avatars/1295680020915818521/29e52b0c54eeec98847c38be8dd26fa2.png?size=4096"
+                         alt="Devpatel"
+                         class="team-avatar">
+
                     <h3>Devpatel</h3>
                     <p>Backend Developer</p>
-                    <button class="btn btn-secondary dm-btn">DM Devpatel</button>
+
+                    <a href="https://discord.gg/Dw3xuWtKmD"
+                       target="_blank"
+                       class="btn btn-primary">
+                       💬 Hire Devpatel
+                    </a>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Hire Section -->
-    <section id="hire" class="section reveal" style="animation-delay: 0.8s">
+    <!-- Hire -->
+    <section id="hire" class="section">
         <div class="container">
-            <h2 class="section-title">Hire a Developer</h2>
-            <p class="section-subtitle">Book your preferred expert for premium Discord development</p>
-            <div class="grid hire-grid">
-                <div class="glass card" data-developer="MAX">
-                    <img src="https://cdn.discordapp.com/avatars/1469928466106548245/4cf1088449a4d0181e577780c4be6c18.png?size=4096" 
-                         alt="MAX" class="team-avatar">
-                    <h3>MAX</h3>
-                    <p>Founder & Lead Developer<br><span style="opacity: 0.8; font-size: 0.9rem;">Full-stack Discord expert</span></p>
-                    <span style="color: var(--deep-emerald); font-weight: 600; font-size: 0.95rem;">Available For Work</span>
-                    <button class="btn btn-primary book-btn mt-4" data-developer="MAX">Book MAX</button>
-                </div>
-                <div class="glass card" data-developer="Sophia">
-                    <img src="https://cdn.discordapp.com/avatars/1497847943045058640/12b0e37ab31a2cb021baab5247cfe924.png?size=4096" 
-                         alt="Sophia" class="team-avatar">
-                    <h3>Sophia</h3>
-                    <p>UI/UX Designer<br><span style="opacity: 0.8; font-size: 0.9rem;">Premium Discord interfaces</span></p>
-                    <span style="color: var(--deep-emerald); font-weight: 600; font-size: 0.95rem;">Available For Work</span>
-                    <button class="btn btn-primary book-btn mt-4" data-developer="Sophia">Book Sophia</button>
-                </div>
-                <div class="glass card" data-developer="Peter">
-                    <img src="https://cdn.discordapp.com/avatars/887918451409166426/3f52a7c296ae2ec99984d878a4663f45.png?size=4096" 
-                         alt="Peter" class="team-avatar">
-                    <h3>Peter</h3>
-                    <p>Frontend Developer<br><span style="opacity: 0.8; font-size: 0.9rem;">Modern web interfaces</span></p>
-                    <span style="color: var(--deep-emerald); font-weight: 600; font-size: 0.95rem;">Available For Work</span>
-                    <button class="btn btn-primary book-btn mt-4" data-developer="Peter">Book Peter</button>
-                </div>
-                <div class="glass card" data-developer="Devpatel">
-                    <img src="https://cdn.discordapp.com/avatars/1295680020915818521/29e52b0c54eeec98847c38be8dd26fa2.png?size=4096" 
-                         alt="Devpatel" class="team-avatar">
-                    <h3>Devpatel</h3>
-                    <p>Backend Developer<br><span style="opacity: 0.8; font-size: 0.9rem;">Scalable Discord systems</span></p>
-                    <span style="color: var(--deep-emerald); font-weight: 600; font-size: 0.95rem;">Available For Work</span>
-                    <button class="btn btn-primary book-btn mt-4" data-developer="Devpatel">Book Devpatel</button>
-                </div>
+            <h2 class="section-title">Ready To Start?</h2>
+
+            <p class="section-subtitle">
+                Join our Discord server and open a ticket to hire developers.
+            </p>
+
+            <div style="text-align:center;">
+                <a href="https://discord.gg/Dw3xuWtKmD"
+                   target="_blank"
+                   class="btn btn-primary"
+                   style="font-size:1.2rem;padding:22px 60px;">
+                   🚀 Join Discord & Hire Now
+                </a>
             </div>
         </div>
     </section>
-
-    <!-- Booking Modal -->
-    <div id="bookingModal" class="modal">
-        <div class="modal-content">
-            <h2 id="modalTitle" style="font-size: 2.5rem; margin-bottom: 1rem;">Book Developer</h2>
-            <form id="bookingForm">
-                <input type="hidden" id="selectedDeveloper" name="selectedDeveloper">
-                
-                <div class="form-group">
-                    <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Full Name *" required>
-                </div>
-                
-                <div class="form-group">
-                    <input type="text" id="discordUsername" name="discordUsername" class="form-input" placeholder="Discord Username *" required>
-                </div>
-                
-                <div class="form-group">
-                    <input type="email" id="gmailAddress" name="gmailAddress" class="form-input" placeholder="Gmail Address *" required>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    <div class="form-group">
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="number" id="budget" name="budget" class="form-input" placeholder="Budget ($)" min="50" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <select id="projectType" name="projectType" class="form-select" required>
-                        <option value="">Project Type *</option>
-                        <option value="discord-bot">Discord Bot Development</option>
-                        <option value="server-setup">Server Customization</option>
-                        <option value="ai-integration">AI Integration</option>
-                        <option value="security">Security Systems</option>
-                        <option value="website">Website Development</option>
-                        <option value="automation">Automation Systems</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <textarea id="projectDescription" name="projectDescription" class="form-textarea" placeholder="Project Description *" required></textarea>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button type="button" class="btn btn-secondary" onclick="closeBookingModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">Send Booking Request</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Success/Error Modals -->
-    <div id="successModal" class="modal">
-        <div class="modal-content" style="text-align: center;">
-            <h3 style="color: var(--deep-emerald); font-size: 2.5rem; margin-bottom: 1rem;">✅ Success!</h3>
-            <p id="successMessage" style="font-size: 1.2rem; margin-bottom: 2rem;">Booking request sent successfully.</p>
-            <button class="btn btn-primary" onclick="closeModal('successModal')">Done</button>
-        </div>
-    </div>
-
-    <div id="errorModal" class="modal">
-        <div class="modal-content" style="text-align: center;">
-            <h3 style="color: #ff6b6b; font-size: 2.5rem; margin-bottom: 1rem;">❌ Error</h3>
-            <p id="errorMessage" style="font-size: 1.2rem; margin-bottom: 2rem;">Message failed to send. Please try again.</p>
-            <button class="btn btn-primary" onclick="closeModal('errorModal')">Try Again</button>
-        </div>
-    </div>
 
     <!-- Footer -->
-    <footer class="footer reveal">
+    <footer class="footer">
         <div class="container">
-            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">MAX Development</h3>
-            <p style="opacity: 0.8; margin-bottom: 2rem;">California • Premium Discord Development</p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="mailto:ssrp.official67@gmail.com" class="btn btn-secondary" style="font-size: 0.95rem; padding: 12px 32px;">Contact Email</a>
-            </div>
-            <p style="opacity: 0.6; margin-top: 3rem; font-size: 0.9rem;">© 2024 MAX Development. All rights reserved.</p>
+            <h3 style="font-size: 2rem; margin-bottom: 1rem;">
+                MAX Development
+            </h3>
+
+            <p style="opacity:0.7; margin-bottom:2rem;">
+                Premium Discord Development Services
+            </p>
+
+            <a href="https://discord.gg/Dw3xuWtKmD"
+               target="_blank"
+               class="btn btn-secondary">
+               💬 Join Discord Server
+            </a>
+
+            <p style="opacity:0.5; margin-top:3rem;">
+                © 2026 MAX Development. All rights reserved.
+            </p>
         </div>
     </footer>
 
-    <script>
-        // EmailJS - REPLACE WITH YOUR ACTUAL KEYS
-        // 1. Get from https://www.emailjs.com
-        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE';
-        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE';
-        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID_HERE';
-        
-        emailjs.init(EMAILJS_PUBLIC_KEY);
+    <!-- Floating Discord Button -->
+    <a href="https://discord.gg/Dw3xuWtKmD"
+       target="_blank"
+       class="discord-float">
+       💬
+    </a>
 
-        // Particles System
+    <script>
+
+        // Particles
         function initParticles() {
             const container = document.getElementById('particles');
             const count = window.innerWidth < 768 ? 30 : 60;
-            
+
             for (let i = 0; i < count; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -700,121 +620,24 @@
             }
         }
 
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                target.scrollIntoView({ behavior: 'smooth' });
-            });
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+
+            document.getElementById('progressBar').style.width = progress + '%';
         });
 
-        // DM Buttons - Copy Discord ID
-        document.querySelectorAll('.dm-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const card = btn.closest('.card');
-                const discordId = card.dataset.discord;
-                const name = card.dataset.name;
-                
-                navigator.clipboard.writeText(discordId).then(() => {
-                    showModal('successModal', `Discord ID for ${name} copied!\nPaste it in Discord to start messaging.`);
-                }).catch(() => {
-                    showModal('errorModal', 'Failed to copy. Please copy manually: ' + discordId);
-                });
-            });
-        });
-
-        // Book Developer Buttons
-        document.querySelectorAll('.book-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const developer = btn.dataset.developer;
-                document.getElementById('selectedDeveloper').value = developer;
-                document.getElementById('modalTitle').textContent = `Book ${developer}`;
-                document.getElementById('bookingModal').style.display = 'flex';
-            });
-        });
-
-        // Booking Form
-        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-            data.timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
-            data.subject = `${data.fullName} booked ${data.selectedDeveloper}`;
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-            
-            try {
-                console.log('Sending email with data:', data);
-                
-                const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, data, EMAILJS_PUBLIC_KEY);
-                console.log('SUCCESS! Email sent:', response.status, response.text);
-                
-                showModal('successModal', `Booking request for ${data.selectedDeveloper} sent successfully!\nWe will contact you within 24 hours.`);
-                e.target.reset();
-                closeBookingModal();
-                
-            } catch (error) {
-                console.error('EMAIL ERROR:', error);
-                showModal('errorModal', 'Failed to send booking. Please check your connection and try again.');
-            } finally {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }
-        });
-
-        // Modal Controls
-        function closeBookingModal() {
-            document.getElementById('bookingModal').style.display = 'none';
-        }
-
-        function showModal(modalId, message) {
-            const modal = document.getElementById(modalId);
-            const messageEl = document.getElementById(modalId === 'successModal' ? 'successMessage' : 'errorMessage');
-            messageEl.textContent = message;
-            modal.style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Close modals on outside click
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
-
-        // Scroll Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = `${index * 0.1}s`;
-                    entry.target.classList.add('reveal');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Parallax Background
+        // Parallax
         let ticking = false;
+
         function updateParallax() {
             const scrolled = window.pageYOffset;
             const bg = document.querySelector('.bg-gif');
+
             bg.style.transform = `translateY(${scrolled * 0.25}px) scale(1.03)`;
+
             ticking = false;
         }
 
@@ -825,19 +648,12 @@
             }
         });
 
-        // EmailJS Gmail Reply Setup Note
-        console.log('%c🚀 MAX Development - Production Ready', 'color: #00d4ff; font-size: 16px; font-weight: bold');
-        console.log('%c📧 EmailJS Setup Required:', 'color: #00ff88; font-size: 14px');
-        console.log('1. Public Key: dashboard.emailjs.com');
-        console.log('2. Service ID: Gmail service');
-        console.log('3. Template ID: Create booking template');
-        console.log('4. Reply-To: {{gmailAddress}} in template');
-        console.log('%c📨 All bookings → ssrp.official67@gmail.com', 'color: #ffd700; font-size: 14px');
-
-        // Initialize
+        // Init
         document.addEventListener('DOMContentLoaded', () => {
             initParticles();
         });
+
     </script>
 </body>
 </html>
+```
